@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -94,14 +95,6 @@ public class MainActivity extends ActionBarActivity {
             final View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             new AuthorizationAPI(rootView).execute("get");
 
-            ((Button) rootView.findViewById(R.id.btnRefresh)).setOnClickListener(
-                    new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            new AuthorizationAPI(rootView).execute("get");
-                        }
-                    }
-            );
 
             ((Button) rootView.findViewById(R.id.btnUnlock)).setOnClickListener(
                     new View.OnClickListener() {
@@ -111,6 +104,19 @@ public class MainActivity extends ActionBarActivity {
                         }
                     }
             );
+
+            SwipeRefreshLayout swipeLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_container);
+            swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    new AuthorizationAPI(rootView).execute("get");
+                }
+            });
+            swipeLayout.setColorScheme(android.R.color.holo_blue_bright,
+                    android.R.color.holo_green_light,
+                    android.R.color.holo_orange_light,
+                    android.R.color.holo_red_light);
+
             return rootView;
         }
 

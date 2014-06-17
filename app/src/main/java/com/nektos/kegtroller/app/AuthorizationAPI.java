@@ -6,8 +6,10 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -60,9 +62,12 @@ public class AuthorizationAPI extends AsyncTask<String, String, String> {
     }
     @Override
     protected String doInBackground(String... params) {
+        SwipeRefreshLayout swipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
+
         String url = getApiURL();
         HttpResponse httpResponse = null;
         if(params[0].equals("get")) {
+            swipeLayout.setRefreshing(true);
             try {
                 HttpClient httpclient = new DefaultHttpClient();
                 httpResponse = httpclient.execute(new HttpGet(url));
@@ -71,6 +76,7 @@ public class AuthorizationAPI extends AsyncTask<String, String, String> {
                 Log.d("InputStream", e.getLocalizedMessage());
             }
         } else if(params[0].equals("unlock")) {
+            swipeLayout.setRefreshing(true);
             JSONObject o = new JSONObject();
             try {
                 o.put("api_key",getApiKey());
@@ -93,6 +99,7 @@ public class AuthorizationAPI extends AsyncTask<String, String, String> {
             }
         }
 
+
         String result = "";
         try {
             InputStream inputStream = null;
@@ -108,6 +115,8 @@ public class AuthorizationAPI extends AsyncTask<String, String, String> {
         } catch (Exception e) {
             Log.e("InputStream", "Unable to get response", e);
         }
+
+        swipeLayout.setRefreshing(false);
         return result;
 
     }
@@ -140,10 +149,12 @@ public class AuthorizationAPI extends AsyncTask<String, String, String> {
 
         ImageView image = (ImageView) view.findViewById(R.id.status);
         TextView txt = (TextView)view.findViewById(R.id.statusText);
+        Button b = (Button)view.findViewById(R.id.btnUnlock);
 
         if(ttl > 0) {
             image.setImageResource(R.drawable.green);
             txt.setText("Unlocked");
+            b.setVisibility(View.INVISIBLE);
 
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
@@ -155,6 +166,7 @@ public class AuthorizationAPI extends AsyncTask<String, String, String> {
         } else {
             image.setImageResource(R.drawable.red);
             txt.setText("Locked");
+            b.setVisibility(View.VISIBLE);
         }
 
     }

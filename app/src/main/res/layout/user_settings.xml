@@ -4,9 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <PreferenceCategory android:title="Settings"
-        android:background="@color/black"
-        android:textColor="@color/white">
+    <PreferenceCategory android:title="Settings">
         <EditTextPreference
             android:title="API URL"
             android:summary="URL for accessing the API"
