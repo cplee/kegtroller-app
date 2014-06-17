@@ -13,9 +13,11 @@ import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
@@ -109,7 +111,22 @@ public class MainActivity extends ActionBarActivity {
             swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
+                    TextView swipeText= (TextView) rootView.findViewById(R.id.swipeText);
+                    swipeText.setVisibility(View.INVISIBLE);
                     new AuthorizationAPI(rootView).execute("get");
+                }
+            });
+            swipeLayout.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    if(motionEvent.getAction()==MotionEvent.ACTION_MOVE) {
+                        TextView swipeText = (TextView) rootView.findViewById(R.id.swipeText);
+                        swipeText.setVisibility(View.VISIBLE);
+                    } else if(motionEvent.getAction()==MotionEvent.ACTION_UP) {
+                        TextView swipeText = (TextView) rootView.findViewById(R.id.swipeText);
+                        swipeText.setVisibility(View.INVISIBLE);
+                    }
+                    return false;
                 }
             });
             swipeLayout.setColorScheme(android.R.color.holo_blue_bright,
