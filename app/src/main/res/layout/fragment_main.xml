@@ -1,0 +1,52 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:background="@color/black"
+    tools:context="com.nektos.kegtroller.app.MainActivity$PlaceholderFragment">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/status"
+            android:scaleType="fitXY"
+            android:layout_width="250px"
+            android:layout_height="250px"
+            android:src="@drawable/grey" />
+        <TextView
+            android:id="@+id/statusText"
+            android:text="Loading..."
+            android:textColor="@color/white"
+            android:textSize="12pt"
+            android:gravity="center"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btnRefresh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/white"
+            android:text="Refresh" />
+        <Button
+            android:id="@+id/btnUnlock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:textColor="@color/white"
+            android:text="Unlock" />
+    </LinearLayout>
+
+
+</LinearLayout>
